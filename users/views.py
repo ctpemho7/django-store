@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.contrib import auth, messages
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 from products.models import Basket
 from users.forms import UserLoginForm, UserRegisterForm, UserProfileForm
@@ -41,6 +42,7 @@ def register(request):
     return render(request, 'users/register.html', context)
 
 
+@login_required
 def profile(request):
     if request.method == 'POST':
         # получаем конкретного пользователя через instance
@@ -58,6 +60,7 @@ def profile(request):
     return render(request, 'users/profile.html', context)
 
 
+@login_required
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect(reverse('index'))
